@@ -563,7 +563,7 @@
 
     /* ── Results grid layout ── */
     #result-area {
-      background: #080808;
+      background: #f5f2eb;
       padding: 0 48px 80px;
       margin-top: 0;
     }
@@ -582,18 +582,19 @@
     }
     .results-hero-eyebrow {
       font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--yellow);
+      text-transform: uppercase; color: rgba(0,0,0,0.4);
       font-family: 'General Sans', sans-serif;
       margin-bottom: 16px;
     }
     .results-hero-title {
       font-size: clamp(32px, 4vw, 52px);
       font-weight: 800; letter-spacing: -0.03em;
-      color: #fff;
+      color: var(--black);
       font-family: 'General Sans', 'PingFang TC', sans-serif;
       line-height: 1.1;
     }
-    .results-hero-title span { color: var(--yellow); }
+    .results-hero-title span { color: var(--black); }
+    .results-hero::after { background: var(--black); }
     .results-category-row {
       display: flex;
       align-items: center;
@@ -604,15 +605,16 @@
       font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
       text-transform: uppercase;
       font-family: 'General Sans', sans-serif;
-      color: rgba(255,255,255,0.35);
-      padding: 4px 10px;
-      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(0,0,0,0.35);
+      padding: 4px 12px;
+      border: 1px solid rgba(0,0,0,0.15);
       border-radius: 20px;
+      white-space: nowrap;
     }
-    .results-category-tag--video { color: var(--yellow); border-color: rgba(255,204,0,0.3); }
+    .results-category-tag--video { color: var(--black); border-color: rgba(0,0,0,0.4); font-weight: 800; }
     .results-category-line {
       flex: 1; height: 1px;
-      background: rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.1);
     }
     .results-grid {
       display: grid;
@@ -628,66 +630,66 @@
     .social-boxes { display: contents; }
     /* 影片文案框覆寫 */
     #result-area .result-box {
-      background: linear-gradient(135deg, #1a1800 0%, #111000 100%);
-      border: 1px solid rgba(255,204,0,0.2);
+      background: var(--yellow);
+      border: none;
       border-radius: 20px;
       padding: 32px 36px;
       margin-top: 0;
-      box-shadow: 0 0 0 1px rgba(255,204,0,0.05), 0 24px 64px rgba(0,0,0,0.6);
+      box-shadow: 0 8px 40px rgba(255,204,0,0.3), 0 2px 0 rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    #result-area .result-box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(255,204,0,0.4), 0 2px 0 rgba(0,0,0,0.06);
     }
     #result-area .result-box::before {
-      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,204,0,0.12) 0%, transparent 70%);
+      background: radial-gradient(ellipse 60% 50% at 90% 10%, rgba(255,255,255,0.45) 0%, transparent 60%);
     }
-    #result-area .result-eyebrow { color: rgba(255,204,0,0.6); }
-    #result-area .result-text { color: rgba(255,255,255,0.9); }
-    #result-area .result-meta { color: rgba(255,255,255,0.25); }
-    #result-area .tts-time { color: rgba(255,255,255,0.35); }
-    #result-area .tts-progress-wrap { background: rgba(255,255,255,0.08); }
-    #result-area .tts-progress-bar { background: var(--yellow); }
-    #result-area .tts-play-pause { background: var(--yellow); color: #000; }
-    #result-area .tts-play-pause:hover { background: #e6b800; }
+    #result-area .result-eyebrow { color: rgba(0,0,0,0.45); }
+    #result-area .result-text { color: var(--black); }
+    #result-area .result-meta { color: rgba(0,0,0,0.4); }
     .social-box {
-      background: #111;
-      border: 1px solid rgba(255,255,255,0.07);
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.07);
       border-radius: 20px;
       padding: 32px 36px;
       position: relative; overflow: hidden;
       animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
-      transition: border-color 0.2s, transform 0.2s;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 1px 0 rgba(0,0,0,0.04);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     .social-box:hover {
-      border-color: rgba(255,255,255,0.14);
-      transform: translateY(-3px);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.13);
     }
     .social-box::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 70%);
+      background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(255,204,0,0.04) 0%, transparent 70%);
       pointer-events: none;
     }
     .social-box-header {
       display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 20px; position: relative; z-index: 1;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
     }
     .social-eyebrow {
       font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
-      text-transform: uppercase; color: rgba(255,255,255,0.3);
+      text-transform: uppercase; color: rgba(0,0,0,0.3);
       font-family: 'General Sans', sans-serif;
     }
     .social-text {
-      font-size: 14px; line-height: 2; color: rgba(255,255,255,0.82);
+      font-size: 14px; line-height: 2; color: rgba(0,0,0,0.8);
       white-space: pre-wrap; font-family: 'General Sans', 'PingFang TC', sans-serif;
       position: relative; z-index: 1;
     }
     .btn-copy--dark {
-      background: rgba(255,255,255,0.07) !important;
-      color: rgba(255,255,255,0.6) !important;
-      border: 1px solid rgba(255,255,255,0.1) !important;
+      background: rgba(0,0,0,0.05) !important;
+      color: rgba(0,0,0,0.5) !important;
+      border: 1px solid rgba(0,0,0,0.1) !important;
       font-size: 11px !important;
     }
-    .btn-copy--dark:hover { background: rgba(255,255,255,0.13) !important; color: #fff !important; }
+    .btn-copy--dark:hover { background: rgba(0,0,0,0.1) !important; color: var(--black) !important; }
     @media (max-width: 1024px) {
       .results-grid { grid-template-columns: 1fr; }
       #result-area { padding: 0 20px 60px; }
