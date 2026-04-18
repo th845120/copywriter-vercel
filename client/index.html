@@ -641,6 +641,21 @@
       font-size: 11px; color: rgba(0,0,0,0.45);
       font-family: 'General Sans', sans-serif; white-space: nowrap;
     }
+    .tts-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .tts-download:hover { background: rgba(255,255,255,0.25); }
     .tts-copyright {
       font-size: 11px; color: #cc2200;
       font-family: 'General Sans', 'PingFang TC', sans-serif;
@@ -977,7 +992,7 @@ ${features.map((f, i) => `${i+1}. ${f}`).join('\n')}
         const url = URL.createObjectURL(blob);
 
         ttsAudio = new Audio(url);
-        renderTTSPlayer(ttsAudio);
+        renderTTSPlayer(ttsAudio, url);
         ttsAudio.play();
 
         btn.innerHTML = '<span class="tts-icon">🔊</span> 播放中';
@@ -994,7 +1009,7 @@ ${features.map((f, i) => `${i+1}. ${f}`).join('\n')}
       }
     }
 
-    function renderTTSPlayer(audio) {
+    function renderTTSPlayer(audio, url) {
       const wrap = document.getElementById('tts-player-wrap');
       if (!wrap) return;
       wrap.innerHTML = `
@@ -1004,6 +1019,7 @@ ${features.map((f, i) => `${i+1}. ${f}`).join('\n')}
             <div class="tts-progress-bar" id="tts-prog"></div>
           </div>
           <span class="tts-time" id="tts-time">0:00</span>
+          <a class="tts-download" href="${url}" download="旁白.mp3" title="下載音檔">⬇</a>
         </div>
         <p class="tts-copyright" id="tts-copyright">＊此為武敬凱老師的聲音，僅供參考，請勿任意使用或散布。</p>`;
       setTimeout(() => {
