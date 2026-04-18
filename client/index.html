@@ -997,9 +997,9 @@ ${features.map((f, i) => `${i+1}. ${f}`).join('\n')}
 
         btn.innerHTML = '<span class="tts-icon">🔊</span> 播放中';
         ttsAudio.onended = () => {
-          btn.disabled = false;
+          btn.disabled = true;
           btn.classList.remove('loading');
-          btn.innerHTML = '<span class="tts-icon">▶</span> 重播旁白';
+          btn.innerHTML = '<span class="tts-icon">✓</span> 已生成音檔';
         };
       } catch (err) {
         btn.disabled = false;
