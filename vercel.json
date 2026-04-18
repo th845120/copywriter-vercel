@@ -3,6 +3,12 @@
   "outputDirectory": "dist/public",
   "installCommand": "npm install",
   "framework": null,
+  "functions": {
+    "api/*.js": {
+      "memory": 512,
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" }
   ]
