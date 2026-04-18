@@ -563,84 +563,131 @@
 
     /* ── Results grid layout ── */
     #result-area {
-      padding: 0 40px 80px;
+      background: #080808;
+      padding: 0 48px 80px;
+      margin-top: 0;
     }
-    .results-heading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 48px;
-      margin-bottom: 32px;
-      padding-top: 56px;
+    .results-hero {
+      text-align: center;
+      padding: 72px 0 52px;
+      position: relative;
     }
-    .results-heading-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+    .results-hero::after {
+      content: '';
+      display: block;
+      width: 48px; height: 2px;
+      background: var(--yellow);
+      margin: 20px auto 0;
+      border-radius: 2px;
     }
-    .results-heading-label {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      font-family: 'General Sans', 'PingFang TC', sans-serif;
-      color: var(--black);
-    }
-    .results-heading-label--social { color: var(--black); }
-    .results-heading-sub {
-      font-size: 12px;
-      color: rgba(0,0,0,0.35);
+    .results-hero-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--yellow);
       font-family: 'General Sans', sans-serif;
-      letter-spacing: 0.05em;
+      margin-bottom: 16px;
     }
-    .results-heading-sub--social { color: rgba(0,0,0,0.35); }
-    .results-heading-divider {
-      width: 1px; height: 48px;
-      background: rgba(0,0,0,0.12);
+    .results-hero-title {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800; letter-spacing: -0.03em;
+      color: #fff;
+      font-family: 'General Sans', 'PingFang TC', sans-serif;
+      line-height: 1.1;
+    }
+    .results-hero-title span { color: var(--yellow); }
+    .results-category-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .results-category-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-family: 'General Sans', sans-serif;
+      color: rgba(255,255,255,0.35);
+      padding: 4px 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+    }
+    .results-category-tag--video { color: var(--yellow); border-color: rgba(255,204,0,0.3); }
+    .results-category-line {
+      flex: 1; height: 1px;
+      background: rgba(255,255,255,0.06);
     }
     .results-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
+      gap: 16px;
       align-items: start;
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
     }
     .results-col { display: flex; flex-direction: column; }
     .results-section-label { display: none; }
+    .results-heading { display: none; }
     .social-boxes { display: contents; }
+    /* 影片文案框覆寫 */
+    #result-area .result-box {
+      background: linear-gradient(135deg, #1a1800 0%, #111000 100%);
+      border: 1px solid rgba(255,204,0,0.2);
+      border-radius: 20px;
+      padding: 32px 36px;
+      margin-top: 0;
+      box-shadow: 0 0 0 1px rgba(255,204,0,0.05), 0 24px 64px rgba(0,0,0,0.6);
+    }
+    #result-area .result-box::before {
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,204,0,0.12) 0%, transparent 70%);
+    }
+    #result-area .result-eyebrow { color: rgba(255,204,0,0.6); }
+    #result-area .result-text { color: rgba(255,255,255,0.9); }
+    #result-area .result-meta { color: rgba(255,255,255,0.25); }
+    #result-area .tts-time { color: rgba(255,255,255,0.35); }
+    #result-area .tts-progress-wrap { background: rgba(255,255,255,0.08); }
+    #result-area .tts-progress-bar { background: var(--yellow); }
+    #result-area .tts-play-pause { background: var(--yellow); color: #000; }
+    #result-area .tts-play-pause:hover { background: #e6b800; }
     .social-box {
-      background: #1D1D1F; border-radius: 20px;
-      padding: 28px 32px;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 32px 36px;
       position: relative; overflow: hidden;
       animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both;
-      box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .social-box:hover {
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-3px);
     }
     .social-box::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse 60% 50% at 90% 10%, rgba(255,204,0,0.06) 0%, transparent 60%);
+      background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 70%);
       pointer-events: none;
     }
     .social-box-header {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px; position: relative; z-index: 1;
+      margin-bottom: 20px; position: relative; z-index: 1;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
     }
     .social-eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: rgba(255,255,255,0.4);
+      font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
       font-family: 'General Sans', sans-serif;
     }
     .social-text {
-      font-size: 14px; line-height: 1.9; color: rgba(255,255,255,0.88);
+      font-size: 14px; line-height: 2; color: rgba(255,255,255,0.82);
       white-space: pre-wrap; font-family: 'General Sans', 'PingFang TC', sans-serif;
       position: relative; z-index: 1;
     }
     .btn-copy--dark {
-      background: rgba(255,255,255,0.1) !important;
-      color: rgba(255,255,255,0.75) !important;
-      border: 1px solid rgba(255,255,255,0.12) !important;
+      background: rgba(255,255,255,0.07) !important;
+      color: rgba(255,255,255,0.6) !important;
+      border: 1px solid rgba(255,255,255,0.1) !important;
+      font-size: 11px !important;
     }
-    .btn-copy--dark:hover { background: rgba(255,255,255,0.18) !important; }
+    .btn-copy--dark:hover { background: rgba(255,255,255,0.13) !important; color: #fff !important; }
     @media (max-width: 1024px) {
       .results-grid { grid-template-columns: 1fr; }
       #result-area { padding: 0 20px 60px; }
@@ -997,16 +1044,16 @@ ${features.map((f, i) => `${i+1}. ${f}`).join('\n')}
       const v2 = (social && social.v2) ? social.v2 : '';
       area.style.display = 'block';
       area.innerHTML = `
-        <div class="results-heading">
-          <div class="results-heading-item">
-            <span class="results-heading-label">影片文案</span>
-            <span class="results-heading-sub">VIDEO COPY</span>
-          </div>
-          <div class="results-heading-divider"></div>
-          <div class="results-heading-item">
-            <span class="results-heading-label results-heading-label--social">社群文案</span>
-            <span class="results-heading-sub results-heading-sub--social">SOCIAL COPY</span>
-          </div>
+        <div class="results-hero">
+          <p class="results-hero-eyebrow">✦ 文案已生成</p>
+          <h2 class="results-hero-title">影片文案 <span>&</span> 社群文案</h2>
+        </div>
+        <div class="results-category-row">
+          <span class="results-category-tag results-category-tag--video">VIDEO COPY</span>
+          <div class="results-category-line"></div>
+          <span class="results-category-tag">SOCIAL COPY V1</span>
+          <div class="results-category-line"></div>
+          <span class="results-category-tag">SOCIAL COPY V2</span>
         </div>
         <div class="results-grid">
           <!-- 影片文案 -->
