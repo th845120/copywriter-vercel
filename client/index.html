@@ -561,10 +561,63 @@
     .generate-btn:active { transform: translateY(0) scale(0.99); }
     .generate-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
 
+    /* ── Results grid layout ── */
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 32px;
+      align-items: start;
+    }
+    .results-col { display: flex; flex-direction: column; }
+    .results-section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(0,0,0,0.5);
+      font-family: 'General Sans', sans-serif;
+      margin-bottom: 10px;
+    }
+    .results-section-label--social { color: rgba(255,204,0,0.7); }
+    .social-boxes { display: flex; flex-direction: column; gap: 16px; }
+    .social-box {
+      background: #1D1D1F; border-radius: 20px;
+      padding: 28px 32px;
+      position: relative; overflow: hidden;
+      animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+    }
+    .social-box::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 90% 10%, rgba(255,204,0,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .social-box-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; position: relative; z-index: 1;
+    }
+    .social-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.4);
+      font-family: 'General Sans', sans-serif;
+    }
+    .social-text {
+      font-size: 14px; line-height: 1.9; color: rgba(255,255,255,0.88);
+      white-space: pre-wrap; font-family: 'General Sans', 'PingFang TC', sans-serif;
+      position: relative; z-index: 1;
+    }
+    .btn-copy--dark {
+      background: rgba(255,255,255,0.1) !important;
+      color: rgba(255,255,255,0.75) !important;
+      border: 1px solid rgba(255,255,255,0.12) !important;
+    }
+    .btn-copy--dark:hover { background: rgba(255,255,255,0.18) !important; }
+    @media (max-width: 900px) {
+      .results-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── Result ── */
     .result-box {
       background: var(--yellow); border-radius: 24px;
-      padding: 40px 44px; margin-top: 32px;
+      padding: 40px 44px; margin-top: 0;
       position: relative; overflow: hidden;
       animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both;
       box-shadow: 0 24px 80px rgba(255,204,0,0.25);
@@ -894,7 +947,8 @@ ${features.map((f, i) => `${i+1}. ${f}`).join('\n')}
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || '生成失敗');
         const text = data.text || '';
-        showResult(text);
+        const social = data.social || { v1: '', v2: '' };
+        showResult(text, social);
       } catch (err) {
         alert('生成失敗：' + err.message);
       } finally {
@@ -903,30 +957,64 @@ ${features.map((f, i) => `${i+1}. ${f}`).join('\n')}
       }
     }
 
-    function showResult(text) {
+    function showResult(text, social) {
       const area = document.getElementById('result-area');
       const charCount = text.replace(/\s/g, '').length;
+      const v1 = (social && social.v1) ? social.v1 : '';
+      const v2 = (social && social.v2) ? social.v2 : '';
       area.style.display = 'block';
       area.innerHTML = `
-        <div class="result-box">
-          <div class="result-header">
-            <span class="result-eyebrow">✦ 生成結果</span>
-            <div style="display:flex;gap:8px;align-items:center">
-              <button class="btn-tts" id="tts-btn" onclick="speakText(${JSON.stringify(text).replace(/"/g,'&quot;')})">
-                <span class="tts-icon">▶</span> 播放旁白
-              </button>
-              <button class="btn-copy" onclick="copyResult(this, ${JSON.stringify(text).replace(/"/g,'&quot;')})">
-                <span class="copy-label">複製旁白</span>
-                <span class="copy-done">✓ 已複製</span>
-              </button>
+        <div class="results-grid">
+          <!-- 影片文案 -->
+          <div class="results-col results-col--video">
+            <div class="results-section-label">影片文案</div>
+            <div class="result-box">
+              <div class="result-header">
+                <span class="result-eyebrow">✦ 廣告旁白</span>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <button class="btn-tts" id="tts-btn" onclick="speakText(${JSON.stringify(text).replace(/"/g,'&quot;')})">
+                    <span class="tts-icon">▶</span> 播放旁白
+                  </button>
+                  <button class="btn-copy" onclick="copyResult(this, ${JSON.stringify(text).replace(/"/g,'&quot;')})">
+                    <span class="copy-label">複製旁白</span>
+                    <span class="copy-done">✓ 已複製</span>
+                  </button>
+                </div>
+              </div>
+              <p class="result-text">${escHtml(text)}</p>
+              <div id="tts-player-wrap"></div>
+              <p class="result-meta">約 ${charCount} 字</p>
             </div>
           </div>
-          <p class="result-text">${escHtml(text)}</p>
-          <div id="tts-player-wrap"></div>
-          <p class="result-meta">約 ${charCount} 字</p>
+          <!-- 社群文案 -->
+          <div class="results-col results-col--social">
+            <div class="results-section-label results-section-label--social">社群文案</div>
+            <div class="social-boxes">
+              <div class="social-box">
+                <div class="social-box-header">
+                  <span class="social-eyebrow">版本 1</span>
+                  <button class="btn-copy btn-copy--dark" onclick="copyResult(this, ${JSON.stringify(v1).replace(/"/g,'&quot;')})">
+                    <span class="copy-label">複製</span>
+                    <span class="copy-done">✓ 已複製</span>
+                  </button>
+                </div>
+                <p class="social-text">${escHtml(v1)}</p>
+              </div>
+              <div class="social-box">
+                <div class="social-box-header">
+                  <span class="social-eyebrow">版本 2</span>
+                  <button class="btn-copy btn-copy--dark" onclick="copyResult(this, ${JSON.stringify(v2).replace(/"/g,'&quot;')})">
+                    <span class="copy-label">複製</span>
+                    <span class="copy-done">✓ 已複製</span>
+                  </button>
+                </div>
+                <p class="social-text">${escHtml(v2)}</p>
+              </div>
+            </div>
+          </div>
         </div>
       `;
-      // 自動複製並顯示 toast
+      // 自動複製影片文案並顯示 toast
       navigator.clipboard.writeText(text).then(() => {
         showCopyToast();
       });
